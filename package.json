@@ -5,6 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "node server.mjs",
+    "start": "node server.mjs",
     "test": "node src/calculations.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

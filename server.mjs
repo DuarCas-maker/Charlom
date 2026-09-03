@@ -1,9 +1,10 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
-import { extname, join, normalize } from "node:path";
+import { extname, normalize, resolve, sep } from "node:path";
 
-const root = process.cwd();
+const root = resolve(process.cwd());
 const port = Number(process.env.PORT || 4173);
+const host = process.env.HOST || "0.0.0.0";
 
 const types = {
   ".html": "text/html; charset=utf-8",
@@ -20,8 +21,8 @@ const types = {
 function resolvePath(url) {
   const cleanUrl = decodeURIComponent(url.split("?")[0]);
   const route = cleanUrl === "/" ? "/index.html" : cleanUrl === "/admin" ? "/admin.html" : cleanUrl;
-  const filePath = normalize(join(root, route));
-  if (!filePath.startsWith(root)) return null;
+  const filePath = normalize(resolve(root, `.${route}`));
+  if (filePath !== root && !filePath.startsWith(`${root}${sep}`)) return null;
   return filePath;
 }
 
@@ -44,7 +45,7 @@ createServer(async (req, res) => {
     res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
     res.end("Not found");
   }
-}).listen(port, () => {
-  console.log(`Charlom proposal running at http://localhost:${port}`);
-  console.log(`Admin panel available at http://localhost:${port}/admin`);
+}).listen(port, host, () => {
+  console.log(`Charlom proposal running at http://${host}:${port}`);
+  console.log(`Admin panel available at http://${host}:${port}/admin`);
 });
