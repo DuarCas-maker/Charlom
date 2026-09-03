@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Charlom</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="admin-body">
+    <header class="admin-header">
+      <a class="brand" href="/">
+        <span class="brand-mark">CH</span>
+        <span>Charlom</span>
+      </a>
+      <div class="admin-actions">
+        <button class="button ghost" id="export-config" type="button">Exportar configuración</button>
+        <label class="button ghost file-button">
+          Importar JSON
+          <input id="import-config" type="file" accept="application/json" />
+        </label>
+        <button class="button danger" id="restore-config" type="button">Restaurar original</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <section class="admin-intro">
+        <p class="eyebrow">Panel local</p>
+        <h1>Configuración comercial Charlom</h1>
+        <p>Estos cambios se guardan en localStorage de este navegador. No es seguridad fuerte ni reemplaza una base de datos multiusuario.</p>
+      </section>
+
+      <form id="admin-form" class="admin-form">
+        <section class="admin-section">
+          <h2>Textos comerciales</h2>
+          <div class="form-grid">
+            <label>Título hero<textarea name="copy.heroTitle" rows="3"></textarea></label>
+            <label>Subtítulo hero<textarea name="copy.heroSubtitle" rows="3"></textarea></label>
+            <label>Mensaje central<textarea name="copy.centralMessage" rows="4"></textarea></label>
+            <label>TRM editable<input name="meta.usdToCop" type="number" min="0" step="100" /></label>
+          </div>
+        </section>
+
+        <section class="admin-section">
+          <h2>Descuentos y recurrentes</h2>
+          <div class="form-grid compact">
+            <label>Descuento implementación %<input name="discounts.implementationPercent" type="number" min="0" max="100" step="1" /></label>
+            <label>Descuento mensual %<input name="discounts.monthlyPercent" type="number" min="0" max="100" step="1" /></label>
+            <label>Mantenimiento mensual<input name="recurring.maintenanceMonthly" type="number" min="0" step="50000" /></label>
+            <label>Soporte mensual<input name="recurring.supportMonthly" type="number" min="0" step="50000" /></label>
+            <label>SSL anual<input name="recurring.sslAnnual" type="number" min="0" step="50000" /></label>
+          </div>
+        </section>
+
+        <section class="admin-section">
+          <h2>Infraestructura</h2>
+          <div id="infra-admin" class="admin-card-grid"></div>
+        </section>
+
+        <section class="admin-section">
+          <h2>Alegra</h2>
+          <div id="alegra-admin" class="admin-card-grid"></div>
+        </section>
+
+        <section class="admin-section">
+          <h2>Módulos comerciales</h2>
+          <div id="modules-admin" class="admin-module-list"></div>
+        </section>
+
+        <div class="save-bar">
+          <span id="save-status">Sin cambios pendientes</span>
+          <button class="button primary" type="submit">Guardar configuración</button>
+        </div>
+      </form>
+    </main>
+
+    <script type="module" src="/src/admin.js"></script>
+  </body>
+</html>

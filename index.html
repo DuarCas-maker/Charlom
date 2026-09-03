@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Propuesta Charlom</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#inicio" aria-label="Ir al inicio">
+        <span class="brand-mark">CH</span>
+        <span>Charlom</span>
+      </a>
+      <nav class="nav" aria-label="Secciones">
+        <a href="#configurador">Configurador</a>
+        <a href="#detalle">Componentes</a>
+        <a href="#resumen">Resumen</a>
+      </nav>
+    </header>
+
+    <main id="app">
+      <section id="inicio" class="hero">
+        <img src="/assets/hero-sneakers.png" alt="Tenis personalizables en estudio editorial streetwear" />
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <p class="eyebrow">Propuesta comercial interactiva</p>
+          <h1 id="hero-title">De vender productos a construir un ecosistema comercial conectado.</h1>
+          <p id="hero-subtitle"></p>
+          <div class="hero-actions">
+            <a class="button primary" href="#configurador">Construir mi solución</a>
+            <a class="button ghost" href="#onboarding">Ver metodología</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="band light current-state" id="hoy">
+        <div class="section-head">
+          <p class="eyebrow">Charlom hoy</p>
+          <h2>El problema real no es solo no tener e-commerce.</h2>
+          <p>Ventas, clientes, inventario, pagos, comunicación y administración viven separados. La propuesta conecta esos puntos sin forzar al negocio a cambiar su esencia.</p>
+        </div>
+        <div class="pain-grid">
+          <article><strong>Inventario</strong><span>Una sola fuente de verdad entre tienda física y canales digitales.</span></article>
+          <article><strong>Clientes</strong><span>Historial, seguimiento, recompra y postventa visibles.</span></article>
+          <article><strong>WhatsApp</strong><span>Menos dependencia de procesos manuales y mejor trazabilidad.</span></article>
+          <article><strong>Gestión</strong><span>Ingresos, egresos, métricas y decisiones en el mismo mapa.</span></article>
+        </div>
+        <div class="signal-board reveal" aria-label="Mapa visual de fricciones operativas">
+          <div class="signal-card inventory">
+            <span>Inventario</span>
+            <div class="signal-visual inventory-visual" aria-hidden="true">
+              <i class="shelf"></i>
+              <i class="box box-a"></i>
+              <i class="box box-b"></i>
+              <i class="box box-c"></i>
+            </div>
+            <small>Stock moviéndose entre tienda y canales digitales.</small>
+          </div>
+          <div class="signal-card customers">
+            <span>Clientes</span>
+            <div class="signal-visual customers-visual" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i>
+            </div>
+            <small>Personas, historial, recompra y postventa visibles.</small>
+          </div>
+          <div class="signal-card whatsapp">
+            <span>WhatsApp</span>
+            <div class="signal-visual whatsapp-visual" aria-hidden="true">
+              <i class="phone"></i>
+              <i class="chat chat-a"></i>
+              <i class="chat chat-b"></i>
+            </div>
+            <small>Mensajes que dejan trazabilidad comercial.</small>
+          </div>
+          <div class="signal-card management">
+            <span>Gestión</span>
+            <div class="signal-visual management-visual" aria-hidden="true">
+              <i class="board"></i>
+              <i class="bar bar-a"></i>
+              <i class="bar bar-b"></i>
+              <i class="bar bar-c"></i>
+              <i class="dot dot-a"></i>
+              <i class="dot dot-b"></i>
+            </div>
+            <small>Ingresos, egresos, métricas y decisiones en un mapa.</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="chaos-section" id="flujo">
+        <div class="section-head left">
+          <p class="eyebrow">Flujo actual</p>
+          <h2>Mucho valor se pierde entre silos sin conexión.</h2>
+          <p>La operación existe, pero cada parte vive en su propia isla: mensajes, inventario, pagos, seguimiento y administración no se hablan entre sí.</p>
+        </div>
+        <div class="chaos-map" aria-label="Silos de información sin conexiones">
+          <span class="silo s1">Instagram</span>
+          <span class="silo s2">WhatsApp</span>
+          <span class="silo s3">Inventario</span>
+          <span class="silo s4">Pagos</span>
+          <span class="silo s5">Clientes</span>
+          <span class="silo s6">Notas</span>
+          <span class="silo s7">Tienda física</span>
+          <span class="silo s8">Contabilidad</span>
+          <span class="noise n1"></span>
+          <span class="noise n2"></span>
+          <span class="noise n3"></span>
+          <span class="noise n4"></span>
+        </div>
+      </section>
+
+      <section class="vision-flow-section" id="vision-charlom">
+        <div class="section-head">
+          <p class="eyebrow">Visión Charlom</p>
+          <h2>Un pipeline claro, conectado y medible.</h2>
+          <p>La propuesta ordena el flujo comercial para que cada evento alimente el siguiente paso y deje trazabilidad.</p>
+        </div>
+        <div class="pipeline-flow" aria-label="Pipeline organizado Charlom">
+          <article><span class="icon" data-icon="share"></span><strong>Canales</strong><small>Instagram, web, tienda física</small></article>
+          <article><span class="icon" data-icon="message"></span><strong>Lead</strong><small>Captura y clasificación</small></article>
+          <article><span class="icon" data-icon="users"></span><strong>CRM</strong><small>Cliente, historial, pipeline</small></article>
+          <article><span class="icon" data-icon="box"></span><strong>Pedido</strong><small>Producto, personalización, pago</small></article>
+          <article><span class="icon" data-icon="chart"></span><strong>Datos</strong><small>Dashboard y decisiones</small></article>
+        </div>
+      </section>
+
+      <section class="band light compare" id="vision">
+        <div class="before-after-wrap">
+          <div class="compare-kicker"><span></span>Antes vs Después<span></span></div>
+          <h2>De operación fragmentada a operación diseñada<span>.</span></h2>
+          <div class="compare-hero">
+            <article class="compare-panel before-panel">
+              <div class="paper-stack" aria-hidden="true">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <div class="compare-copy">
+                <div class="compare-title-row">
+                  <span class="compare-icon muted-icon" data-icon="box"></span>
+                  <h3>Antes</h3>
+                </div>
+                <ul>
+                  <li>Seguimientos manuales y dispersos.</li>
+                  <li>Inventario con baja visibilidad entre canales.</li>
+                  <li>Datos comerciales difíciles de consultar.</li>
+                  <li>Administración separada del proceso de venta.</li>
+                </ul>
+              </div>
+            </article>
+            <div class="compare-arrow" aria-hidden="true">→</div>
+            <article class="compare-panel after-panel">
+              <div class="compare-copy">
+                <div class="compare-title-row">
+                  <span class="compare-icon" data-icon="zap"></span>
+                  <h3>Después</h3>
+                </div>
+                <ul>
+                  <li>Leads, clientes y pedidos conectados.</li>
+                  <li>Inventario sincronizado desde una fuente central.</li>
+                  <li>Dashboard para decisiones gerenciales.</li>
+                  <li>Automatizaciones sin perder control humano.</li>
+                </ul>
+              </div>
+              <div class="digital-board" aria-hidden="true">
+                <i class="screen"></i>
+                <i class="line l1"></i>
+                <i class="line l2"></i>
+                <i class="line l3"></i>
+                <i class="avatar"></i>
+                <i class="check"></i>
+              </div>
+            </article>
+          </div>
+          <div class="metric-visual reveal" aria-label="Comparación visual antes y después">
+            <article>
+              <span class="metric-icon muted-icon" data-icon="box"></span>
+              <strong>Control de inventario</strong>
+              <b>48%</b>
+              <i style="--value: 48%"></i>
+              <small>Actual</small>
+            </article>
+            <article>
+              <span class="metric-icon muted-icon" data-icon="receipt"></span>
+              <strong>Trazabilidad comercial</strong>
+              <b>36%</b>
+              <i style="--value: 36%"></i>
+              <small>Actual</small>
+            </article>
+            <article class="after">
+              <span class="metric-icon" data-icon="share"></span>
+              <strong>Operación conectada</strong>
+              <b>78%</b>
+              <i style="--value: 78%"></i>
+              <small>Propuesto</small>
+            </article>
+            <article class="after">
+              <span class="metric-icon" data-icon="chart"></span>
+              <strong>Visibilidad gerencial</strong>
+              <b>82%</b>
+              <i style="--value: 82%"></i>
+              <small>Propuesto</small>
+            </article>
+          </div>
+          <div class="live-pill"><span></span>Las métricas se actualizan en tiempo real</div>
+        </div>
+      </section>
+
+      <section class="onboarding-section" id="onboarding">
+        <div class="onboarding-shell">
+          <div class="onboarding-copy">
+            <p class="eyebrow">Fase obligatoria</p>
+            <h2>Descubrimiento, onboarding y <span>arquitectura.</span></h2>
+            <i></i>
+            <p>Antes de implementar, se valida cómo funciona realmente Charlom. Alineamos funcionalidades, operación de tienda, WhatsApp, inventario y personalización antes de construir.</p>
+          </div>
+          <div id="stage-track" class="stage-track"></div>
+        </div>
+      </section>
+
+      <section class="architecture-section" id="arquitectura">
+        <div class="architecture-rail" aria-hidden="true">
+          <span>Opción 1</span>
+          <i></i>
+          <b></b><b></b><b></b><b></b><b></b>
+        </div>
+        <div class="architecture-wrap">
+          <div class="architecture-heading">
+            <p><span></span>Arquitectura conceptual<span></span></p>
+            <h2>Solidez sin convertir la tecnología en protagonista<span>.</span></h2>
+            <small>Web, tienda física, Instagram, Facebook, WhatsApp, CRM, inventario, pagos, n8n, infraestructura administrada y datos se conectan para darle propiedad y escalabilidad a Charlom.</small>
+            <i></i>
+          </div>
+          <div class="architecture-grid" aria-label="Arquitectura conceptual Charlom">
+            <article>
+              <span class="arch-icon" data-icon="share"></span>
+              <div>
+                <b>01</b>
+                <h3>Canales</h3>
+                <p>Todos los puntos de contacto conectados en un solo flujo.</p>
+              </div>
+              <em></em>
+              <strong>→</strong>
+            </article>
+            <article>
+              <span class="arch-icon" data-icon="users"></span>
+              <div>
+                <b>02</b>
+                <h3>Gestión</h3>
+                <p>CRM, clientes, ventas e inventario en una misma operación.</p>
+              </div>
+              <em></em>
+              <strong>→</strong>
+            </article>
+            <article class="featured">
+              <span class="arch-icon" data-icon="zap"></span>
+              <div>
+                <b>03</b>
+                <h3>Automatización</h3>
+                <p>n8n orquesta procesos, seguimientos y tareas sin perder control.</p>
+              </div>
+              <em></em>
+              <strong>→</strong>
+            </article>
+            <article>
+              <span class="arch-icon" data-icon="chart"></span>
+              <div>
+                <b>04</b>
+                <h3>Información</h3>
+                <p>Datos centralizados para decisiones confiables.</p>
+              </div>
+              <em></em>
+              <strong>→</strong>
+            </article>
+            <article>
+              <span class="arch-icon" data-icon="cloud"></span>
+              <div>
+                <b>05</b>
+                <h3>Infraestructura</h3>
+                <p>Infraestructura administrada, segura y escalable.</p>
+              </div>
+              <em></em>
+              <strong>→</strong>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="band detail" id="detalle">
+        <div class="section-head">
+          <p class="eyebrow">Componentes clave</p>
+          <h2>La propuesta va más allá de una página web.</h2>
+        </div>
+        <div class="detail-grid">
+          <article>
+            <h3>E-commerce</h3>
+            <p>Catálogo, variantes, tallas, disponibilidad, pedidos, clientes, cupones, promociones, compra directa y continuidad por WhatsApp.</p>
+          </article>
+          <article>
+            <h3>CRM</h3>
+            <p>Dos caminos: CRM propio para máxima adaptación o CRM externo para implementación más rápida y dependencia de licencias.</p>
+          </article>
+          <article>
+            <h3>WhatsApp + chatbot</h3>
+            <p>API oficial de Meta, trazabilidad, automatizaciones, clasificación inicial y transferencia a asesor humano.</p>
+          </article>
+          <article>
+            <h3>Administración</h3>
+            <p>Admin in-house para control gerencial o integración con Alegra, sin venderlo como reemplazo automático de obligaciones tributarias.</p>
+          </article>
+          <article>
+            <h3>Pasarelas</h3>
+            <p>Bold, Wompi y Mercado Pago se comparan según operación física, digital, API, costos y conciliación.</p>
+          </article>
+          <article>
+            <h3>Métricas</h3>
+            <p>Ventas, leads, conversión, canal, inventario, productos, clientes, recompra y tiempo de respuesta sin inventar históricos.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="band modules" id="modulos">
+        <div class="section-head">
+          <p class="eyebrow">Módulos</p>
+          <h2>Seleccionar solo lo que genera valor ahora</h2>
+          <p>Explora por categoría sin recorrer una lista interminable. Cada módulo conserva precio, tiempo e impacto desde la configuración central.</p>
+        </div>
+        <div id="module-gallery" class="module-showcase"></div>
+      </section>
+
+      <section class="config-section" id="configurador">
+        <div class="config-layout">
+          <aside class="workflow-panel" aria-live="polite">
+            <div class="progress-ring" id="config-progress-ring">
+              <strong id="config-progress">0%</strong>
+              <span>configurado</span>
+            </div>
+            <div class="config-side-head">
+              <span>Módulos seleccionados</span>
+              <strong id="sticky-count">0 / 0</strong>
+            </div>
+            <div id="config-steps" class="config-steps"></div>
+            <div class="quote-panel">
+              <p class="eyebrow">Tu solución Charlom</p>
+              <dl id="sticky-summary"></dl>
+              <a class="button primary wide" href="#resumen">Revisar propuesta</a>
+            </div>
+          </aside>
+          <div class="config-workspace">
+            <div class="config-hero-row">
+              <div class="section-head left">
+                <p class="eyebrow"><span class="inline-icon" data-icon="box"></span>Configurador comercial</p>
+                <h2>Construye la primera fase de Charlom.</h2>
+                <p>El cálculo separa pago a nosotros, costos recurrentes, infraestructura, licencias y proveedores externos.</p>
+              </div>
+              <aside class="config-info-note">
+                <span class="inline-icon" data-icon="compass"></span>
+                <p>Cada módulo seleccionado se suma a la <strong>implementación</strong> de tu proyecto.</p>
+              </aside>
+            </div>
+            <div id="config-tabs" class="config-tabs" aria-label="Categorías del configurador"></div>
+            <div id="module-selector" class="selector-list"></div>
+            <div class="config-total-bar" aria-live="polite">
+              <span class="total-icon" data-icon="box"></span>
+              <div>
+                <strong>Total implementación</strong>
+                <small id="config-total-timeline">Tiempo estimado</small>
+              </div>
+              <b id="config-total-price">$ 0</b>
+              <span class="total-delta" id="config-total-modules">0 módulos seleccionados</span>
+              <a class="button ghost" href="#resumen">Ver desglose</a>
+              <a class="button primary" href="#resumen">Ver cotización completa <span>→</span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="summary-section" id="resumen">
+        <div class="summary-layout">
+          <div>
+            <p class="eyebrow">Resumen de propuesta</p>
+            <h2>Tu solución seleccionada</h2>
+            <div id="selected-cards" class="selected-cards"></div>
+          </div>
+          <aside class="final-summary">
+            <h3>Inversión</h3>
+            <dl id="final-summary"></dl>
+            <div class="summary-actions">
+              <button class="button primary" id="approve-button" type="button">Aprobar alcance inicial</button>
+              <button class="button ghost" id="onboarding-button" type="button">Agendar sesión de onboarding</button>
+              <button class="button quiet" id="print-button" type="button">Imprimir / PDF</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="philosophy" id="filosofia">
+        <p>La herramienta se adapta al negocio.</p>
+        <strong>No el negocio a la herramienta.</strong>
+      </section>
+    </main>
+
+    <button class="mobile-quote-toggle" id="mobile-quote-toggle" type="button" aria-expanded="false">Ver propuesta</button>
+    <div class="mobile-quote" id="mobile-quote" aria-hidden="true">
+      <dl id="mobile-summary"></dl>
+      <a class="button primary wide" href="#resumen">Revisar</a>
+    </div>
+
+    <template id="print-date-template">
+      <p class="print-date"></p>
+    </template>
+
+    <script type="module" src="/src/app.js"></script>
+  </body>
+</html>
