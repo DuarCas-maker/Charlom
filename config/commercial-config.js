@@ -294,7 +294,7 @@ export const defaultCommercialConfig = {
       shortName: "Admin propio",
       description:
         "Gestión administrativa y gerencial para ventas, ingresos, egresos, costos, márgenes, inventarios y reportes.",
-      implementationPrice: 1500000,
+      implementationPrice: 1700000,
       monthlyPrice: 0,
       annualPrice: 0,
       thirdPartyCost: 0,

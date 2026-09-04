@@ -15,7 +15,7 @@ assert.equal(selected.includes("onboarding"), true);
 assert.equal(selected.includes("ecommerce"), true);
 assert.equal(selected.includes("automation"), false);
 assert.equal(selected.includes("dashboard"), false);
-assert.equal(calculateImplementationTotal(config, selected), 8250000);
+assert.equal(calculateImplementationTotal(config, selected), 8450000);
 assert.equal(calculateThirdPartyMonthlyTotal(config, selected), 0);
 
 const withAlegra = selected.filter((id) => id !== "admin-inhouse").concat("alegra-integration");
@@ -26,10 +26,10 @@ assert.equal(calculateImplementationTotal(config, withAlegra), 8716800);
 const withInvoice = [...selected, "electronic-invoice"];
 assert.equal(calculateThirdPartyMonthlyTotal(config, withInvoice), 99900);
 assert.equal(calculateThirdPartyAnnualTotal(config, withInvoice), 899100);
-assert.equal(calculateImplementationTotal(config, withInvoice), 9149100);
+assert.equal(calculateImplementationTotal(config, withInvoice), 9349100);
 
 config.discounts.implementationPercent = 10;
-assert.equal(calculateImplementationTotal(config, selected), 7425000);
+assert.equal(calculateImplementationTotal(config, selected), 7605000);
 
 const summary = buildProposalSummary(config, withAlegra);
 assert.equal(summary.moduleCount, 9);
