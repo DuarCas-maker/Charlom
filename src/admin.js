@@ -46,6 +46,24 @@ function renderAlegraAdmin() {
           <h3>${plan.name}</h3>
           <label>Nombre<input name="alegraPlans.${plan.id}.name" value="${plan.name}" /></label>
           <label>Valor mensual<input type="number" min="0" step="1000" name="alegraPlans.${plan.id}.monthlyPrice" value="${plan.monthlyPrice}" /></label>
+          <label>Valor anual<input type="number" min="0" step="1000" name="alegraPlans.${plan.id}.annualPrice" value="${plan.annualPrice || 0}" /></label>
+          <label>Descripción<textarea rows="2" name="alegraPlans.${plan.id}.description">${plan.description || ""}</textarea></label>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function renderElectronicInvoiceAdmin() {
+  document.querySelector("#electronic-invoice-admin").innerHTML = Object.values(config.electronicInvoicePlans)
+    .map(
+      (plan) => `
+        <article class="admin-edit-card">
+          <h3>${plan.name}</h3>
+          <label>Nombre<input name="electronicInvoicePlans.${plan.id}.name" value="${plan.name}" /></label>
+          <label>Valor mensual<input type="number" min="0" step="1000" name="electronicInvoicePlans.${plan.id}.monthlyPrice" value="${plan.monthlyPrice}" /></label>
+          <label>Valor anual<input type="number" min="0" step="1000" name="electronicInvoicePlans.${plan.id}.annualPrice" value="${plan.annualPrice || 0}" /></label>
+          <label>Descripción<textarea rows="2" name="electronicInvoicePlans.${plan.id}.description">${plan.description || ""}</textarea></label>
         </article>
       `
     )
@@ -98,6 +116,7 @@ function collectForm() {
 function render() {
   renderInfraAdmin();
   renderAlegraAdmin();
+  renderElectronicInvoiceAdmin();
   renderModulesAdmin();
   fillNamedFields();
 }

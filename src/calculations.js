@@ -50,17 +50,63 @@ export function calculateAnnualTotal(config, selectedIds) {
   return moduleAnnual + Number(config.recurring.sslAnnual || 0);
 }
 
-export function calculateThirdPartyMonthlyTotal(config, selectedIds) {
+function selectedPlanTotal(config, selectedIds, moduleId, plans, selectedPlanId, field) {
   const selected = new Set(selectedIds);
-  const infrastructure = config.infrastructurePlans[config.selectedInfrastructurePlan];
+  if (!selected.has(moduleId)) return 0;
+  const plan = plans?.[selectedPlanId];
+  return plan ? Number(plan[field] || 0) : 0;
+}
+
+export function calculateThirdPartyMonthlyTotal(config, selectedIds) {
+  const infrastructure = config.selectedInfrastructurePlan
+    ? config.infrastructurePlans?.[config.selectedInfrastructurePlan]
+    : null;
   const infrastructureMonthly = infrastructure ? Number(infrastructure.usdMonthly || 0) * Number(config.meta.usdToCop || 0) : 0;
-  const alegra = selected.has("alegra-integration") ? config.alegraPlans[config.selectedAlegraPlan] : null;
-  const alegraMonthly = alegra ? Number(alegra.monthlyPrice || 0) : 0;
+  const alegraMonthly = selectedPlanTotal(
+    config,
+    selectedIds,
+    "alegra-integration",
+    config.alegraPlans,
+    config.selectedAlegraPlan,
+    "monthlyPrice"
+  );
+  const electronicInvoiceMonthly = selectedPlanTotal(
+    config,
+    selectedIds,
+    "electronic-invoice",
+    config.electronicInvoicePlans,
+    config.selectedElectronicInvoicePlan,
+    "monthlyPrice"
+  );
   const moduleExternal = getSelectedModules(config, selectedIds).reduce(
     (sum, module) => sum + Number(module.thirdPartyMonthly || 0),
     0
   );
-  return infrastructureMonthly + alegraMonthly + moduleExternal;
+  return infrastructureMonthly + alegraMonthly + electronicInvoiceMonthly + moduleExternal;
+}
+
+export function calculateThirdPartyAnnualTotal(config, selectedIds) {
+  const alegraAnnual = selectedPlanTotal(
+    config,
+    selectedIds,
+    "alegra-integration",
+    config.alegraPlans,
+    config.selectedAlegraPlan,
+    "annualPrice"
+  );
+  const electronicInvoiceAnnual = selectedPlanTotal(
+    config,
+    selectedIds,
+    "electronic-invoice",
+    config.electronicInvoicePlans,
+    config.selectedElectronicInvoicePlan,
+    "annualPrice"
+  );
+  const moduleExternalAnnual = getSelectedModules(config, selectedIds).reduce(
+    (sum, module) => sum + Number(module.thirdPartyAnnual || 0),
+    0
+  );
+  return alegraAnnual + electronicInvoiceAnnual + moduleExternalAnnual;
 }
 
 export function calculateThirdPartyTotal(config, selectedIds) {
@@ -98,6 +144,7 @@ export function buildProposalSummary(config, selectedIds) {
     annual: calculateAnnualTotal(config, selectedIds),
     thirdPartyOneTime: calculateThirdPartyTotal(config, selectedIds),
     thirdPartyMonthly: calculateThirdPartyMonthlyTotal(config, selectedIds),
+    thirdPartyAnnual: calculateThirdPartyAnnualTotal(config, selectedIds),
     timeline,
     timelineLabel: `${timeline.minWeeks}-${timeline.maxWeeks} semanas`
   };

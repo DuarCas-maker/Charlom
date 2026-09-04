@@ -66,13 +66,14 @@ function categoryIcon(category) {
   const map = {
     "Fase 0": "compass",
     Ventas: "cart",
-    Pagos: "card",
     Gestión: "users",
-    Automatización: "zap",
     Canales: "message",
+    "Estructura de negocio": "share",
+    "Infraestructura web": "cloud",
     Marketing: "megaphone",
     Administración: "briefcase",
-    Datos: "chart"
+    Administrativo: "briefcase",
+    "Facturación electrónica": "receipt"
   };
   return map[category] || "box";
 }
@@ -85,11 +86,15 @@ function moduleIcon(module) {
     "crm-inhouse": "users",
     "crm-external": "users",
     automation: "zap",
+    "business-structure": "share",
+    "software-infrastructure": "cloud",
+    domain: "target",
     "whatsapp-api": "message",
     chatbot: "bot",
     "meta-business": "megaphone",
     "admin-inhouse": "briefcase",
     "alegra-integration": "receipt",
+    "electronic-invoice": "receipt",
     dashboard: "chart",
     "marketing-managed": "megaphone"
   };
@@ -129,6 +134,11 @@ function installStaticIcons() {
 
 function moneyLine(label, value, suffix = "") {
   return `<div><dt>${label}</dt><dd>${formatCOP(value, config)}${suffix}</dd></div>`;
+}
+
+function modulePriceLabel(module) {
+  if (module.externalPlanKey) return "Según plan";
+  return formatCOP(module.implementationPrice, config);
 }
 
 function modulesByCategory(category) {
@@ -385,17 +395,48 @@ function renderConfigSteps(summary = buildProposalSummary(config, selectedIds)) 
   });
 }
 
-function renderAlegraPlans(module) {
-  if (module.externalPlanKey !== "alegra") return "";
+function getExternalPlanConfig(module) {
+  if (module.externalPlanKey === "alegra") {
+    return {
+      label: "Planes Alegra",
+      selectedField: "selectedAlegraPlan",
+      plans: config.alegraPlans,
+      note: "Licencia de tercero. Cálculo mensual y anual."
+    };
+  }
+  if (module.externalPlanKey === "electronicInvoice") {
+    return {
+      label: "Facturación electrónica",
+      selectedField: "selectedElectronicInvoicePlan",
+      plans: config.electronicInvoicePlans,
+      note: "No incluye módulo contable. Anual estimado con 25% OFF."
+    };
+  }
+  return null;
+}
+
+function selectedExternalPlan(module) {
+  const planConfig = getExternalPlanConfig(module);
+  if (!planConfig) return null;
+  return planConfig.plans?.[config[planConfig.selectedField]] || null;
+}
+
+function renderExternalPlans(module) {
+  const planConfig = getExternalPlanConfig(module);
+  if (!planConfig) return "";
+  const selectedPlan = config[planConfig.selectedField];
   return `
-    <div class="allegra-plan-list" aria-label="Planes Alegra">
-      ${Object.values(config.alegraPlans)
+    <div class="allegra-plan-list" aria-label="${planConfig.label}">
+      <p>${planConfig.note}</p>
+      ${Object.values(planConfig.plans || {})
         .map(
           (plan) => `
-            <span class="allegra-plan ${config.selectedAlegraPlan === plan.id ? "selected" : ""}" data-allegra-plan="${plan.id}" role="button" tabindex="0">
+            <span class="allegra-plan ${selectedPlan === plan.id ? "selected" : ""}" data-external-plan="${plan.id}" data-external-module="${module.id}" role="button" tabindex="0">
               <i aria-hidden="true"></i>
-              <em>${plan.name}</em>
+              <em>${plan.name}${plan.recommended ? " · recomendado" : ""}</em>
+              ${plan.description ? `<small>${plan.description}</small>` : ""}
               <small>${formatCOP(plan.monthlyPrice, config)} / mes</small>
+              <small>${formatCOP(plan.annualPrice, config)} / año</small>
             </span>
           `
         )
@@ -437,9 +478,9 @@ function renderSelector() {
                   <strong>${module.name}</strong>
                   <small>${module.description}</small>
                   <em>${module.highlights.slice(0, 3).join(" · ")}</em>
-                  ${renderAlegraPlans(module)}
+                  ${renderExternalPlans(module)}
                 </span>
-                <b>${formatCOP(module.implementationPrice, config)}</b>
+                <b>${modulePriceLabel(module)}</b>
                 <span class="variant-link">Ver detalles <i>→</i></span>
               </article>
             `
@@ -464,16 +505,19 @@ function renderSelector() {
     });
   });
 
-  els.selector.querySelectorAll("[data-allegra-plan]").forEach((input) => {
+  els.selector.querySelectorAll("[data-external-plan]").forEach((input) => {
     input.addEventListener("click", (event) => {
       event.preventDefault();
       event.stopPropagation();
-      config.selectedAlegraPlan = event.currentTarget.dataset.alegraPlan;
-      if (selectedIds.includes("alegra-integration")) {
+      const module = config.modules.find((item) => item.id === event.currentTarget.dataset.externalModule);
+      const planConfig = module ? getExternalPlanConfig(module) : null;
+      if (!module || !planConfig) return;
+      config[planConfig.selectedField] = event.currentTarget.dataset.externalPlan;
+      if (selectedIds.includes(module.id)) {
         renderDynamic();
         renderSelector();
       } else {
-        setSelected("alegra-integration", true);
+        setSelected(module.id, true);
         renderSelector();
       }
     });
@@ -513,13 +557,16 @@ function renderExternalOptions() {
 
 function renderDynamic() {
   const summary = buildProposalSummary(config, selectedIds);
-  const summaryHtml = [
+  const summaryRows = [
     moneyLine("Implementación", summary.implementation),
-    moneyLine("Recurrente propio", summary.monthly, " / mes"),
-    moneyLine("Infraestructura + licencias", summary.thirdPartyMonthly, " / mes"),
-    moneyLine("Servicios externos únicos", summary.thirdPartyOneTime),
+    summary.monthly > 0 ? moneyLine("Recurrente propio", summary.monthly, " / mes") : "",
+    summary.thirdPartyMonthly > 0 ? moneyLine("Terceros mensual", summary.thirdPartyMonthly, " / mes") : "",
+    summary.thirdPartyAnnual > 0 ? moneyLine("Terceros anual estimado", summary.thirdPartyAnnual, " / año") : "",
+    summary.thirdPartyOneTime > 0 ? moneyLine("Servicios externos únicos", summary.thirdPartyOneTime) : "",
+    summary.annual > 0 ? moneyLine("Propio anual", summary.annual, " / año") : "",
     `<div><dt>Tiempo estimado</dt><dd>${summary.timelineLabel}</dd></div>`
-  ].join("");
+  ].filter(Boolean);
+  const summaryHtml = summaryRows.join("");
 
   const activeModuleCount = config.modules.filter((module) => module.active).length;
   els.stickyCount.textContent = `${summary.moduleCount} / ${activeModuleCount}`;
@@ -531,20 +578,25 @@ function renderDynamic() {
   const progress = Math.round((summary.moduleCount / config.modules.filter((module) => module.active).length) * 100);
   els.configProgress.textContent = `${progress}%`;
   els.configProgressRing.style.setProperty("--progress", `${progress}%`);
-  els.finalSummary.innerHTML =
-    summaryHtml +
-    `<div><dt>Costos anuales</dt><dd>${formatCOP(summary.annual, config)} / año</dd></div>`;
+  els.finalSummary.innerHTML = summaryHtml;
 
   els.selectedCards.innerHTML = summary.selectedModules
     .map(
-      (module) => `
+      (module) => {
+        const externalPlan = selectedExternalPlan(module);
+        const externalPlanHtml = externalPlan
+          ? `<p class="selected-plan">Plan seleccionado: ${externalPlan.name} · ${formatCOP(externalPlan.monthlyPrice, config)} / mes · ${formatCOP(externalPlan.annualPrice, config)} / año</p>`
+          : "";
+        return `
         <article class="selected-card">
           <span>${module.category}</span>
           <h3>${module.name}</h3>
           <p>${module.description}</p>
+          ${externalPlanHtml}
           <ul>${module.highlights.map((item) => `<li>${item}</li>`).join("")}</ul>
         </article>
-      `
+      `;
+      }
     )
     .join("");
 
@@ -590,8 +642,10 @@ function syncSelectorState() {
     card.classList.toggle("selected", selected);
     card.setAttribute("aria-pressed", String(selected));
   });
-  els.selector.querySelectorAll("[data-allegra-plan]").forEach((input) => {
-    input.classList.toggle("selected", config.selectedAlegraPlan === input.dataset.alegraPlan);
+  els.selector.querySelectorAll("[data-external-plan]").forEach((input) => {
+    const module = config.modules.find((item) => item.id === input.dataset.externalModule);
+    const planConfig = module ? getExternalPlanConfig(module) : null;
+    input.classList.toggle("selected", Boolean(planConfig && config[planConfig.selectedField] === input.dataset.externalPlan));
   });
   els.moduleGallery.querySelectorAll("[data-toggle-module]").forEach((button) => {
     button.classList.toggle("selected", selectedIds.includes(button.dataset.toggleModule));

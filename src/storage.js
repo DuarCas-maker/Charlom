@@ -20,6 +20,8 @@ function mergeById(defaultItems, customItems, key = "id") {
 
 export function mergeConfig(defaultConfig, customConfig) {
   if (!customConfig) return deepClone(defaultConfig);
+  if (customConfig.meta?.version !== defaultConfig.meta.version) return deepClone(defaultConfig);
+
   const merged = {
     ...deepClone(defaultConfig),
     ...customConfig,
@@ -34,6 +36,10 @@ export function mergeConfig(defaultConfig, customConfig) {
     alegraPlans: {
       ...defaultConfig.alegraPlans,
       ...(customConfig.alegraPlans || {})
+    },
+    electronicInvoicePlans: {
+      ...defaultConfig.electronicInvoicePlans,
+      ...(customConfig.electronicInvoicePlans || {})
     },
     paymentProviders: customConfig.paymentProviders || defaultConfig.paymentProviders,
     assumptions: customConfig.assumptions || defaultConfig.assumptions,

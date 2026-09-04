@@ -1,6 +1,6 @@
 export const defaultCommercialConfig = {
   meta: {
-    version: "1.0.0",
+    version: "2.0.0",
     brandName: "Charlom",
     currency: "COP",
     locale: "es-CO",
@@ -20,7 +20,8 @@ export const defaultCommercialConfig = {
   assumptions: [
     "No se inventan métricas actuales ni procesos internos no levantados.",
     "La personalización avanzada de tenis queda sujeta al levantamiento durante onboarding.",
-    "Tarifas de pasarelas, Meta, WhatsApp, VPS y licencias están sujetas a condiciones vigentes del proveedor.",
+    "E-commerce Charlom incluye una pasarela de pago principal; una pasarela adicional representa un costo extra según alcance y proveedor.",
+    "Las herramientas de terceros como Alegra, HubSpot, ClickUp, Meta o pasarelas conservan sus tarifas, políticas y condiciones vigentes.",
     "Los cambios del panel admin se guardan en localStorage del navegador actual."
   ],
   stages: [
@@ -45,9 +46,9 @@ export const defaultCommercialConfig = {
       icon: "code"
     },
     {
-      title: "Automatizar",
-      description: "Conectamos y automatizamos.",
-      icon: "settings"
+      title: "Conectar",
+      description: "Integramos canales, CRM y datos.",
+      icon: "share"
     },
     {
       title: "Medir",
@@ -69,39 +70,88 @@ export const defaultCommercialConfig = {
     "Venta",
     "Postventa"
   ],
-  infrastructurePlans: {
-    essential: {
-      id: "essential",
-      name: "Essential",
-      usdMonthly: 10,
-      description: "VPS administrado para una primera fase liviana."
-    },
-    recommended: {
-      id: "recommended",
-      name: "Recommended",
-      usdMonthly: 15,
-      description: "Mayor margen operativo para crecer módulos y automatizaciones."
-    }
-  },
-  selectedInfrastructurePlan: "recommended",
+  infrastructurePlans: {},
+  selectedInfrastructurePlan: null,
   alegraPlans: {
     emprendedor: {
       id: "emprendedor",
       name: "Emprendedor",
-      monthlyPrice: 74900
+      monthlyPrice: 74900,
+      annualPrice: 898800,
+      description: "Operación administrativa inicial con licencia de tercero."
     },
     pyme: {
       id: "pyme",
       name: "Pyme",
-      monthlyPrice: 163900
+      monthlyPrice: 163900,
+      annualPrice: 1966800,
+      description: "Plan intermedio para operación con mayor volumen."
     },
     pro: {
       id: "pro",
       name: "Pro",
-      monthlyPrice: 250900
+      monthlyPrice: 250900,
+      annualPrice: 3010800,
+      description: "Plan avanzado para administración más robusta."
     }
   },
   selectedAlegraPlan: "pyme",
+  electronicInvoicePlans: {
+    emprendedor: {
+      id: "emprendedor",
+      name: "Emprendedor",
+      monthlyPrice: 17900,
+      annualPrice: 161100,
+      description: "Solo facturación. Ingresos hasta $10.000.000 mensuales.",
+      features: [
+        "Facturas de venta ilimitadas",
+        "1 usuario con acceso",
+        "1 usuario gratis para tu contador",
+        "Soporte 24/7 gratis"
+      ]
+    },
+    pyme: {
+      id: "pyme",
+      name: "Pyme",
+      monthlyPrice: 49900,
+      annualPrice: 449100,
+      description: "Solo facturación. Ingresos hasta $40.000.000 mensuales.",
+      features: [
+        "Facturas de venta ilimitadas",
+        "2 usuarios con acceso",
+        "1 usuario gratis para tu contador",
+        "Soporte 24/7 gratis"
+      ]
+    },
+    pro: {
+      id: "pro",
+      name: "Pro",
+      monthlyPrice: 99900,
+      annualPrice: 899100,
+      description: "Solo facturación. Ingresos hasta $180.000.000 mensuales.",
+      recommended: true,
+      features: [
+        "Facturas de venta ilimitadas",
+        "3 usuarios con acceso",
+        "1 usuario gratis para tu contador",
+        "Soporte 24/7 gratis"
+      ]
+    },
+    plus: {
+      id: "plus",
+      name: "Plus",
+      monthlyPrice: 179900,
+      annualPrice: 1619100,
+      description: "Solo facturación. Ingresos hasta $500.000.000 mensuales.",
+      features: [
+        "Facturas de venta ilimitadas",
+        "5 usuarios con acceso",
+        "1 usuario gratis para tu contador",
+        "Soporte 24/7 gratis"
+      ]
+    }
+  },
+  selectedElectronicInvoicePlan: "pro",
   paymentProviders: [
     {
       name: "Bold",
@@ -120,11 +170,11 @@ export const defaultCommercialConfig = {
     {
       id: "onboarding",
       category: "Fase 0",
-      name: "Descubrimiento, onboarding y arquitectura",
+      name: "Onboarding",
       shortName: "Onboarding",
       description:
-        "Sesiones intensivas para mapear operación, tienda física, ventas, WhatsApp, inventario, administración, roles y alcance definitivo.",
-      implementationPrice: 500000,
+        "Descubrimiento, entendimiento del negocio, arquitectura inicial y alcance definitivo antes de construir.",
+      implementationPrice: 0,
       monthlyPrice: 0,
       annualPrice: 0,
       thirdPartyCost: 0,
@@ -133,7 +183,7 @@ export const defaultCommercialConfig = {
       defaultSelected: true,
       required: true,
       timelineGroup: "discovery",
-      highlights: ["1 a 3 sesiones de trabajo", "Mapa de procesos", "Arquitectura validada"]
+      highlights: ["Sesiones de trabajo", "Mapa de procesos", "Arquitectura validada"]
     },
     {
       id: "ecommerce",
@@ -142,15 +192,19 @@ export const defaultCommercialConfig = {
       shortName: "E-commerce",
       description:
         "Catálogo, variantes, tallas, stock, carrito, checkout, pedidos, clientes, panel administrativo y SEO básico.",
-      implementationPrice: 3100000,
+      implementationPrice: 1700000,
       monthlyPrice: 0,
       annualPrice: 0,
       thirdPartyCost: 0,
-      estimatedDays: 20,
+      estimatedDays: 18,
       active: true,
       defaultSelected: true,
       timelineGroup: "commerce",
-      highlights: ["Compra directa o por WhatsApp", "Productos y stock", "Base para personalización futura"]
+      highlights: [
+        "Incluye una pasarela de pago principal",
+        "Pasarela adicional con costo extra",
+        "Productos, stock y checkout"
+      ]
     },
     {
       id: "additional-gateway",
@@ -159,15 +213,15 @@ export const defaultCommercialConfig = {
       shortName: "Pasarela extra",
       description:
         "Integración adicional a la pasarela principal para ampliar medios de pago o estrategias de conciliación.",
-      implementationPrice: 350000,
+      implementationPrice: 0,
       monthlyPrice: 0,
       annualPrice: 0,
       thirdPartyCost: 0,
       estimatedDays: 3,
-      active: true,
+      active: false,
       defaultSelected: false,
       timelineGroup: "commerce",
-      highlights: ["Bold, Wompi o Mercado Pago", "Tarifas sujetas al proveedor", "Sin pasarela in-house"]
+      highlights: ["Se cotiza aparte", "Sujeta al proveedor", "No se incluye por defecto"]
     },
     {
       id: "crm-inhouse",
@@ -175,7 +229,7 @@ export const defaultCommercialConfig = {
       name: "CRM Charlom in-house",
       shortName: "CRM propio",
       description:
-        "CRM diseñado alrededor del flujo comercial real de Charlom: leads, clientes, oportunidades, tareas, pedidos y postventa.",
+        "CRM diseñado alrededor del flujo comercial real de Charlom: leads, clientes, oportunidades, tareas, pedidos, postventa, dashboard y datos operativos.",
       implementationPrice: 1500000,
       monthlyPrice: 0,
       annualPrice: 0,
@@ -185,25 +239,25 @@ export const defaultCommercialConfig = {
       defaultSelected: true,
       exclusiveGroup: "crm",
       timelineGroup: "data",
-      highlights: ["Pipeline a la medida", "Sin licencia por usuario", "Integración profunda"]
+      highlights: ["Pipeline a la medida", "Datos integrados en el CRM", "Sin licencia por usuario"]
     },
     {
       id: "crm-external",
       category: "Gestión",
-      name: "Implementación CRM externo",
+      name: "CRM externo",
       shortName: "CRM externo",
       description:
-        "Configuración inicial de una herramienta externa como HubSpot, ClickUp u otra solución madura según estrategia.",
-      implementationPrice: 650000,
+        "Implementación de una herramienta externa como HubSpot, ClickUp u otra solución madura. Es más rápida, pero menos personalizable.",
+      implementationPrice: 1100000,
       monthlyPrice: 0,
       annualPrice: 0,
       thirdPartyCost: 0,
-      estimatedDays: 6,
+      estimatedDays: 7,
       active: true,
       defaultSelected: false,
       exclusiveGroup: "crm",
       timelineGroup: "data",
-      highlights: ["Salida más rápida", "Licencias externas separadas", "Menor desarrollo inicial"]
+      highlights: ["Menos personalizable", "Licencias externas separadas", "Salida más rápida"]
     },
     {
       id: "automation",
@@ -212,32 +266,52 @@ export const defaultCommercialConfig = {
       shortName: "Automatización",
       description:
         "Workflows con n8n para seguimiento, sincronizaciones, notificaciones, eventos y tareas repetitivas.",
-      implementationPrice: 750000,
+      implementationPrice: 0,
       monthlyPrice: 0,
       annualPrice: 0,
       thirdPartyCost: 0,
       estimatedDays: 7,
-      active: true,
-      defaultSelected: true,
+      active: false,
+      defaultSelected: false,
       timelineGroup: "automation",
-      highlights: ["Seguimiento automático", "Control humano", "Eventos comerciales"]
+      highlights: ["Retirado del configurador", "Puede revisarse después", "No se cobra como módulo separado"]
     },
     {
-      id: "whatsapp-api",
-      category: "Canales",
-      name: "WhatsApp Business Platform",
-      shortName: "WhatsApp API",
+      id: "admin-inhouse",
+      category: "Administrativo",
+      name: "Sistema administrativo in-house",
+      shortName: "Admin propio",
       description:
-        "Migración progresiva hacia API oficial de Meta para trazabilidad, múltiples asesores, automatización y CRM.",
-      implementationPrice: 650000,
+        "Gestión administrativa y gerencial para ventas, ingresos, egresos, costos, márgenes, inventarios y reportes.",
+      implementationPrice: 1500000,
       monthlyPrice: 0,
       annualPrice: 0,
       thirdPartyCost: 0,
-      estimatedDays: 6,
+      estimatedDays: 14,
       active: true,
       defaultSelected: true,
-      timelineGroup: "automation",
-      highlights: ["API oficial Meta", "Consumo variable separado", "Base para chatbot"]
+      exclusiveGroup: "admin",
+      timelineGroup: "admin",
+      highlights: ["No reemplaza software fiscal certificado", "Dashboards gerenciales", "Control operativo"]
+    },
+    {
+      id: "alegra-integration",
+      category: "Administrativo",
+      name: "Alegra",
+      shortName: "Alegra",
+      description:
+        "Uso de Alegra como tercero para la gestión administrativa. La licencia depende del plan elegido y conserva menor personalización que una solución propia.",
+      implementationPrice: 0,
+      monthlyPrice: 0,
+      annualPrice: 0,
+      thirdPartyCost: 0,
+      estimatedDays: 5,
+      active: true,
+      defaultSelected: false,
+      exclusiveGroup: "admin",
+      timelineGroup: "admin",
+      externalPlanKey: "alegra",
+      highlights: ["Planes Emprendedor, Pyme o Pro", "Costo mensual y anual visible", "Menos personalizable"]
     },
     {
       id: "chatbot",
@@ -245,16 +319,84 @@ export const defaultCommercialConfig = {
       name: "Chatbot comercial",
       shortName: "Chatbot",
       description:
-        "Primera capa de atención para clasificar leads, responder preguntas frecuentes, consultar stock y transferir a asesor humano.",
-      implementationPrice: 1100000,
+        "Chatbot comercial para clasificar leads, responder preguntas frecuentes, consultar stock y transferir a asesor humano.",
+      implementationPrice: 1000000,
       monthlyPrice: 0,
       annualPrice: 0,
       thirdPartyCost: 0,
-      estimatedDays: 10,
+      estimatedDays: 9,
+      active: true,
+      defaultSelected: true,
+      timelineGroup: "automation",
+      highlights: ["Atención inicial", "Trazabilidad comercial", "Conecta con CRM y ventas"]
+    },
+    {
+      id: "whatsapp-api",
+      category: "Canales",
+      name: "Migración API oficial de Meta",
+      shortName: "API Meta",
+      description:
+        "Implementación de la API oficial de Meta para WhatsApp, trazabilidad, automatizaciones y conexión operativa del chatbot.",
+      implementationPrice: 300000,
+      monthlyPrice: 0,
+      annualPrice: 0,
+      thirdPartyCost: 0,
+      estimatedDays: 4,
       active: true,
       defaultSelected: false,
       timelineGroup: "automation",
-      highlights: ["No reemplaza vendedores", "Clasificación comercial", "Acompañamiento inicial"]
+      highlights: ["API oficial Meta", "Consumos de Meta separados", "Base para trazabilidad"]
+    },
+    {
+      id: "business-structure",
+      category: "Estructura de negocio",
+      name: "Flujo comercial end to end",
+      shortName: "Flujo end to end",
+      description:
+        "Diseño del flujo comercial completo para conectar adquisición, atención, venta, operación, seguimiento y decisión.",
+      implementationPrice: 800000,
+      monthlyPrice: 0,
+      annualPrice: 0,
+      thirdPartyCost: 0,
+      estimatedDays: 7,
+      active: true,
+      defaultSelected: true,
+      timelineGroup: "strategy",
+      highlights: ["Proceso comercial claro", "Menos fricción operativa", "Base para escalar"]
+    },
+    {
+      id: "software-infrastructure",
+      category: "Infraestructura web",
+      name: "Infraestructura del software",
+      shortName: "Infraestructura",
+      description:
+        "Base técnica administrada para alojar, conectar y mantener la operación digital de Charlom.",
+      implementationPrice: 600000,
+      monthlyPrice: 0,
+      annualPrice: 0,
+      thirdPartyCost: 0,
+      estimatedDays: 5,
+      active: true,
+      defaultSelected: true,
+      timelineGroup: "infrastructure",
+      highlights: ["Software preparado para crecer", "Ambiente administrado", "Conexiones operativas"]
+    },
+    {
+      id: "domain",
+      category: "Infraestructura web",
+      name: "Dominio",
+      shortName: "Dominio",
+      description:
+        "Configuración base del dominio para publicar el sitio y conectar la presencia digital principal.",
+      implementationPrice: 50000,
+      monthlyPrice: 0,
+      annualPrice: 0,
+      thirdPartyCost: 0,
+      estimatedDays: 1,
+      active: true,
+      defaultSelected: true,
+      timelineGroup: "infrastructure",
+      highlights: ["Dominio principal", "Configuración DNS", "Publicación inicial"]
     },
     {
       id: "meta-business",
@@ -263,52 +405,50 @@ export const defaultCommercialConfig = {
       shortName: "Meta Business",
       description:
         "Configuración de Meta Business, Instagram, Facebook, Pixel, Conversion API, eventos y conexión comercial.",
-      implementationPrice: 550000,
+      implementationPrice: 0,
       monthlyPrice: 0,
       annualPrice: 0,
       thirdPartyCost: 0,
       estimatedDays: 5,
-      active: true,
+      active: false,
       defaultSelected: false,
       timelineGroup: "marketing",
-      highlights: ["Eventos y Pixel", "Leads conectados", "Base para pauta"]
+      highlights: ["Consolidado en Gestión de marketing", "No se cobra como módulo separado", "Base incluida en marketing"]
     },
     {
-      id: "admin-inhouse",
-      category: "Administración",
-      name: "Sistema administrativo Charlom",
-      shortName: "Admin propio",
+      id: "marketing-managed",
+      category: "Marketing",
+      name: "Gestión de marketing",
+      shortName: "Marketing",
       description:
-        "Gestión administrativa y gerencial para ventas, ingresos, egresos, costos, márgenes, inventarios y reportes.",
-      implementationPrice: 1800000,
+        "Gestión de marketing con infraestructura Meta Business, campañas, optimización, seguimiento y reporting consolidado en un solo ítem.",
+      implementationPrice: 1000000,
       monthlyPrice: 0,
       annualPrice: 0,
       thirdPartyCost: 0,
-      estimatedDays: 15,
+      estimatedDays: 7,
       active: true,
-      defaultSelected: false,
-      exclusiveGroup: "admin",
-      timelineGroup: "admin",
-      highlights: ["No reemplaza software fiscal certificado", "Dashboards gerenciales", "Control operativo"]
+      defaultSelected: true,
+      timelineGroup: "marketing",
+      highlights: ["Meta Business incluido", "Pauta separada", "Gestión y reporting"]
     },
     {
-      id: "alegra-integration",
-      category: "Administración",
-      name: "Integración con Alegra",
-      shortName: "Alegra",
+      id: "electronic-invoice",
+      category: "Facturación electrónica",
+      name: "Facturación electrónica Alegra",
+      shortName: "Facturación",
       description:
-        "Integración o acompañamiento de operación con Alegra según plan seleccionado y necesidades de Charlom.",
-      implementationPrice: 600000,
+        "Plan de facturación electrónica de Alegra. No incluye módulo contable y se elige según facturas, usuarios e ingresos mensuales.",
+      implementationPrice: 0,
       monthlyPrice: 0,
       annualPrice: 0,
       thirdPartyCost: 0,
-      estimatedDays: 6,
+      estimatedDays: 2,
       active: true,
       defaultSelected: false,
-      exclusiveGroup: "admin",
       timelineGroup: "admin",
-      externalPlanKey: "alegra",
-      highlights: ["Licencia separada", "Planes editables", "Conciliación y administración"]
+      externalPlanKey: "electronicInvoice",
+      highlights: ["Solo facturación", "Planes mensuales y anuales", "Tercero Alegra"]
     },
     {
       id: "dashboard",
@@ -317,32 +457,15 @@ export const defaultCommercialConfig = {
       shortName: "Dashboard",
       description:
         "Vista ejecutiva para ventas, leads, conversión, canales, inventario, productos, clientes, recompra y tiempos de respuesta.",
-      implementationPrice: 500000,
+      implementationPrice: 0,
       monthlyPrice: 0,
       annualPrice: 0,
       thirdPartyCost: 0,
       estimatedDays: 5,
-      active: true,
-      defaultSelected: true,
-      timelineGroup: "data",
-      highlights: ["Métricas sin inventar históricos", "Visibilidad gerencial", "Base para decisiones"]
-    },
-    {
-      id: "marketing-managed",
-      category: "Marketing",
-      name: "Marketing administrado",
-      shortName: "Marketing",
-      description:
-        "Servicio recurrente opcional para campañas, anuncios, optimización, contenido, seguimiento y reporting.",
-      implementationPrice: 400000,
-      monthlyPrice: 1200000,
-      annualPrice: 0,
-      thirdPartyCost: 0,
-      estimatedDays: 5,
-      active: true,
+      active: false,
       defaultSelected: false,
-      timelineGroup: "marketing",
-      highlights: ["Honorarios separados de pauta", "Optimización continua", "Reporting"]
+      timelineGroup: "data",
+      highlights: ["Integrado en CRM", "No se cobra como módulo separado", "Base para decisiones"]
     }
   ],
   discounts: {

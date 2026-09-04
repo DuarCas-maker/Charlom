@@ -2413,9 +2413,17 @@ h3 {
 
 .allegra-plan-list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 8px;
   margin-top: 6px;
+}
+
+.allegra-plan-list > p {
+  grid-column: 1 / -1;
+  margin: 0 0 2px;
+  color: #526079;
+  font-size: 0.72rem;
+  font-weight: 800;
 }
 
 .allegra-plan {
@@ -2426,6 +2434,13 @@ h3 {
   border: 1px solid #dce3ef;
   border-radius: var(--radius);
   background: #f8fbff;
+  cursor: pointer;
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.allegra-plan:hover {
+  transform: translateY(-1px);
+  border-color: rgba(47, 125, 255, 0.45);
 }
 
 .allegra-plan i {
@@ -2460,6 +2475,12 @@ h3 {
 .allegra-plan.selected i {
   border-color: var(--accent);
   background: radial-gradient(circle, var(--accent) 45%, transparent 50%), #fff;
+}
+
+.selected-plan {
+  margin-top: 8px;
+  color: var(--accent) !important;
+  font-weight: 900;
 }
 
 .selector-row mark {
