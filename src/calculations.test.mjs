@@ -21,16 +21,20 @@ assert.equal(calculateThirdPartyMonthlyTotal(config, selected), 0);
 const withAlegra = selected.filter((id) => id !== "admin-inhouse").concat("alegra-integration");
 assert.equal(calculateThirdPartyMonthlyTotal(config, withAlegra), 163900);
 assert.equal(calculateThirdPartyAnnualTotal(config, withAlegra), 1966800);
+assert.equal(calculateImplementationTotal(config, withAlegra), 8616800);
 
 const withInvoice = [...selected, "electronic-invoice"];
 assert.equal(calculateThirdPartyMonthlyTotal(config, withInvoice), 99900);
 assert.equal(calculateThirdPartyAnnualTotal(config, withInvoice), 899100);
+assert.equal(calculateImplementationTotal(config, withInvoice), 9049100);
 
 config.discounts.implementationPercent = 10;
 assert.equal(calculateImplementationTotal(config, selected), 7335000);
 
 const summary = buildProposalSummary(config, withAlegra);
 assert.equal(summary.moduleCount, 9);
+assert.equal(summary.inHouseImplementation, 5985000);
+assert.equal(summary.implementation, 7951800);
 assert.equal(summary.timeline.minWeeks > 0, true);
 
 console.log("Calculation tests passed.");

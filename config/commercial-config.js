@@ -1,6 +1,6 @@
 export const defaultCommercialConfig = {
   meta: {
-    version: "2.0.0",
+    version: "2.1.0",
     brandName: "Charlom",
     currency: "COP",
     locale: "es-CO",
@@ -70,6 +70,17 @@ export const defaultCommercialConfig = {
     "Venta",
     "Postventa"
   ],
+  categoryOrder: [
+    "Fase 0",
+    "Infraestructura web",
+    "Ventas",
+    "Gestión",
+    "Administrativo",
+    "Facturación electrónica",
+    "Canales",
+    "Estructura de negocio",
+    "Marketing"
+  ],
   infrastructurePlans: {},
   selectedInfrastructurePlan: null,
   alegraPlans: {
@@ -82,7 +93,7 @@ export const defaultCommercialConfig = {
     },
     pyme: {
       id: "pyme",
-      name: "Pyme",
+      name: "MiPyme",
       monthlyPrice: 163900,
       annualPrice: 1966800,
       description: "Plan intermedio para operación con mayor volumen."

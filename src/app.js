@@ -3,7 +3,17 @@ import { loadConfig } from "./storage.js";
 
 const config = loadConfig();
 let selectedIds = normalizeSelection(getDefaultSelection(config));
-const categories = [...new Set(config.modules.filter((module) => module.active).map((module) => module.category))];
+const categoryOrder = config.categoryOrder || [];
+const categories = [...new Set(config.modules.filter((module) => module.active).map((module) => module.category))].sort(
+  (a, b) => {
+    const aIndex = categoryOrder.indexOf(a);
+    const bIndex = categoryOrder.indexOf(b);
+    if (aIndex === -1 && bIndex === -1) return a.localeCompare(b, "es");
+    if (aIndex === -1) return 1;
+    if (bIndex === -1) return -1;
+    return aIndex - bIndex;
+  }
+);
 let activeModuleCategory = categories.find((category) => category !== "Fase 0") || categories[0];
 let activeConfigCategory = activeModuleCategory;
 let activeModuleId = null;
@@ -101,6 +111,19 @@ function moduleIcon(module) {
   return map[module.id] || categoryIcon(module.category);
 }
 
+function categorySortValue(category) {
+  const index = categoryOrder.indexOf(category);
+  return index === -1 ? Number.MAX_SAFE_INTEGER : index;
+}
+
+function sortModulesByCategoryOrder(modules) {
+  return [...modules].sort((a, b) => {
+    const categoryDelta = categorySortValue(a.category) - categorySortValue(b.category);
+    if (categoryDelta !== 0) return categoryDelta;
+    return config.modules.findIndex((module) => module.id === a.id) - config.modules.findIndex((module) => module.id === b.id);
+  });
+}
+
 function iconSvg(name) {
   const icons = {
     compass: `<svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Z"/><path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8 4.8-2.2Z"/></svg>`,
@@ -155,7 +178,7 @@ function resolveActiveModule() {
 }
 
 function previewModules(currentId) {
-  const modules = config.modules.filter((module) => module.active);
+  const modules = sortModulesByCategoryOrder(config.modules.filter((module) => module.active));
   const currentIndex = modules.findIndex((module) => module.id === currentId);
   if (currentIndex < 0) return modules.slice(0, 4);
   return [...modules.slice(currentIndex + 1), ...modules.slice(0, currentIndex)]
@@ -558,10 +581,10 @@ function renderExternalOptions() {
 function renderDynamic() {
   const summary = buildProposalSummary(config, selectedIds);
   const summaryRows = [
-    moneyLine("Implementación", summary.implementation),
+    moneyLine("Total implementación", summary.implementation),
+    summary.thirdPartyAnnual > 0 ? moneyLine("Anualidades incluidas", summary.thirdPartyAnnual, " / año") : "",
     summary.monthly > 0 ? moneyLine("Recurrente propio", summary.monthly, " / mes") : "",
-    summary.thirdPartyMonthly > 0 ? moneyLine("Terceros mensual", summary.thirdPartyMonthly, " / mes") : "",
-    summary.thirdPartyAnnual > 0 ? moneyLine("Terceros anual estimado", summary.thirdPartyAnnual, " / año") : "",
+    summary.thirdPartyMonthly > 0 ? moneyLine("Referencia mensual terceros", summary.thirdPartyMonthly, " / mes") : "",
     summary.thirdPartyOneTime > 0 ? moneyLine("Servicios externos únicos", summary.thirdPartyOneTime) : "",
     summary.annual > 0 ? moneyLine("Propio anual", summary.annual, " / año") : "",
     `<div><dt>Tiempo estimado</dt><dd>${summary.timelineLabel}</dd></div>`
@@ -580,7 +603,7 @@ function renderDynamic() {
   els.configProgressRing.style.setProperty("--progress", `${progress}%`);
   els.finalSummary.innerHTML = summaryHtml;
 
-  els.selectedCards.innerHTML = summary.selectedModules
+  els.selectedCards.innerHTML = sortModulesByCategoryOrder(summary.selectedModules)
     .map(
       (module) => {
         const externalPlan = selectedExternalPlan(module);

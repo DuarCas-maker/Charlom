@@ -25,12 +25,16 @@ function applyDiscount(value, percent) {
   return value * (1 - Math.max(0, Number(percent || 0)) / 100);
 }
 
-export function calculateImplementationTotal(config, selectedIds) {
+export function calculateInHouseImplementationTotal(config, selectedIds) {
   const subtotal = getSelectedModules(config, selectedIds).reduce(
     (sum, module) => sum + Number(module.implementationPrice || 0),
     0
   );
   return applyDiscount(subtotal, config.discounts.implementationPercent);
+}
+
+export function calculateImplementationTotal(config, selectedIds) {
+  return calculateInHouseImplementationTotal(config, selectedIds) + calculateThirdPartyAnnualTotal(config, selectedIds);
 }
 
 export function calculateMonthlyTotal(config, selectedIds) {
@@ -139,6 +143,7 @@ export function buildProposalSummary(config, selectedIds) {
   return {
     selectedModules,
     moduleCount: selectedModules.length,
+    inHouseImplementation: calculateInHouseImplementationTotal(config, selectedIds),
     implementation: calculateImplementationTotal(config, selectedIds),
     monthly: calculateMonthlyTotal(config, selectedIds),
     annual: calculateAnnualTotal(config, selectedIds),
