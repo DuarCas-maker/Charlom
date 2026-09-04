@@ -382,7 +382,7 @@ export const defaultCommercialConfig = {
       shortName: "Infraestructura",
       description:
         "Base técnica administrada para alojar, conectar y mantener la operación digital de Charlom.",
-      implementationPrice: 600000,
+      implementationPrice: 700000,
       monthlyPrice: 0,
       annualPrice: 0,
       thirdPartyCost: 0,
